@@ -27,7 +27,11 @@
         document.getElementById(id).innerText = player;
         // Check if one of the combinations of marked cells has won the match
         checkWin(player);
-        checkDraw();
+        if(checkDraw()) draw();
+        var aux = minimax(robot)
+        console.log(aux)
+        board[aux.move] = robot;
+        document.getElementById(aux.move).innerText = robot;
     }
 
     function checkWin(player) {
@@ -36,12 +40,16 @@
             []                                                          // Start with an empty array
         );
         for(var set of winBoard.values()) {
-            if( set.every(x => moves.includes(x)) ) won(set, player);         // Check if the marked cells contains one element of winBoard
+            if( set.every(x => moves.includes(x)) ) { // Check if the marked cells contains one element of winBoard
+                won(set, player); 
+                return true;         
+            }
         }   
+        return false;
     }
 
     function won(set, player) {
-        set.every( index => document.getElementById(index).style.backgroundColor = player == human ? "green" : "red");
+        //set.every( index => document.getElementById(index).style.backgroundColor = player == human ? "green" : "red");
     }
 
     function availableCells() {
@@ -49,9 +57,25 @@
     }
 
     function checkDraw() {
-        if(availableCells().length < 1) draw();
+        return availableCells().length < 1;
     }
 
     function draw() {
-        [0,1,2,3,4,5,6,7,8].every( index => document.getElementById(index).style.backgroundColor = "gray");
+        //[0,1,2,3,4,5,6,7,8].every( index => document.getElementById(index).style.backgroundColor = "gray");
+    }
+
+    function minimax(player) {
+        if(checkWin(robot)) return {utility: 10};
+        else if(checkWin(human)) return {utility: -10};
+        else if(availableCells().length < 1) return {utility: 0};
+
+        var possibleMoves = [];
+        for(var move of availableCells()) {
+            board[move] = player;
+            var next = (player == robot) ? minimax(human) : minimax(robot);
+            possibleMoves.push({ move: move, utility: next.utility});
+            board[move] = move
+        }
+        if(player == robot) return possibleMoves.reduce( (prev, curr) => (prev.utility > curr.utility) ? prev : curr);
+        else return possibleMoves.reduce( (prev, curr) => (prev.utility < curr.utility) ? prev : curr);
     }
