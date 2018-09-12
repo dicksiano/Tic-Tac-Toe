@@ -4,7 +4,7 @@ td {
     width: 100px;
     text-align: center;
     vertical-align: middle;
-    font-family: "Comic Sans MS";
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 70px;
     cursor: pointer;
 }
@@ -14,7 +14,7 @@ table {
     position: absolute;
     left: 50%;
     margin-left: -155px;
-    top: 50px;
+    top: 200px;
 }
 
 table tr:first-child td {
@@ -50,3 +50,69 @@ table tr td:last-child {
     color:white;
     font-size: 2em;
 }
+
+h1 {
+    font-size:2em;
+    margin:0.67em 0
+}
+
+h1,h4 {
+    font-family:"Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight:bold;
+    font-style:normal;
+    color:#222222;
+    text-rendering:optimizeLegibility;
+    margin-top:0.2em;
+    margin-bottom:0.5em;
+    text-align: center;
+    line-height:1.2125em
+}
+
+    h1 small, h4 small {
+    font-size:60%;
+    color:#6f6f6f;
+    line-height:0
+   }
+   h1 {
+    font-size:2.125em
+   }
+   h4 {
+    font-size:1.125em
+   }
+
+   .panel h1, .panel h4 {
+    color:#333333
+   }
+   .panel h1,.panel h4,.panel h5,.panel h6 {
+    line-height:1;
+    margin-bottom:0.625em
+   }
+   .panel h1.subheader,.panel h2.subheader,.panel h3.subheader,.panel h4.subheader,.panel h5.subheader,.panel h6.subheader {
+    line-height:1.4
+   }
+   .panel.callout {
+    border-style:solid;
+    border-width:1px;
+    border-color:#2284a1;
+    margin-bottom:1.25em;
+    padding:1.25em;
+    background:#2ba6cb;
+    -webkit-box-shadow:0 1px 0 rgba(255,255,255,0.5) inset;
+    box-shadow:0 1px 0 rgba(255,255,255,0.5) inset
+   }
+   .panel.callout>:first-child {
+    margin-top:0
+   }
+   .panel.callout>:last-child {
+    margin-bottom:0
+   }
+   .panel.callout h1,.panel.callout h2,.panel.callout h3,.panel.callout h4,.panel.callout h5,.panel.callout h6,.panel.callout p {
+    color:white
+   }
+   .panel.callout h1,.panel.callout h2,.panel.callout h3,.panel.callout h4,.panel.callout h5,.panel.callout h6 {
+    line-height:1;
+    margin-bottom:0.625em
+   }
+   .panel.callout h1.subheader,.panel.callout h2.subheader,.panel.callout h3.subheader,.panel.callout h4.subheader,.panel.callout h5.subheader,.panel.callout h6.subheader {
+    line-height:1.4
+   }
