@@ -1,4 +1,5 @@
     var board;
+    var wonSet;
     const human = 'O';
     const robot = 'X';
     const winBoard = [ [0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6] ]
@@ -9,6 +10,7 @@
     function start() {
         document.querySelector(".finish").style.display = "none"
         board = [0,1,2,3,4,5,6,7,8]
+        wonSet = []
         
         for(var cell of cells) {
             cell.innerText = ''
@@ -19,19 +21,17 @@
 
     function clickCell(cell) {
         chooseCell(cell.target.id, human);
+        chooseCell(minimax(robot).move, robot);
     }
 
     function chooseCell(id, player) {
         // Update board
         board[id] = player;
         document.getElementById(id).innerText = player;
+
         // Check if one of the combinations of marked cells has won the match
-        checkWin(player);
+        if(checkWin(player)) won();
         if(checkDraw()) draw();
-        var aux = minimax(robot)
-        console.log(aux)
-        board[aux.move] = robot;
-        document.getElementById(aux.move).innerText = robot;
     }
 
     function checkWin(player) {
@@ -40,16 +40,16 @@
             []                                                          // Start with an empty array
         );
         for(var set of winBoard.values()) {
-            if( set.every(x => moves.includes(x)) ) { // Check if the marked cells contains one element of winBoard
-                won(set, player); 
-                return true;         
-            }
-        }   
+            if( set.every(x => moves.includes(x)) ) {  // Check if the marked cells contains one element of winBoard          
+                wonSet = set;
+                return true;
+            }   
+        }
         return false;
     }
 
     function won(set, player) {
-        //set.every( index => document.getElementById(index).style.backgroundColor = player == human ? "green" : "red");
+        wonSet.every( index => document.getElementById(index).style.backgroundColor = player == human ? "green" : "red");
     }
 
     function availableCells() {
@@ -61,14 +61,14 @@
     }
 
     function draw() {
-        //[0,1,2,3,4,5,6,7,8].every( index => document.getElementById(index).style.backgroundColor = "gray");
+        [0,1,2,3,4,5,6,7,8].every( index => document.getElementById(index).style.backgroundColor = "gray");
     }
 
     function minimax(player) {
         if(checkWin(robot)) return {utility: 10};
         else if(checkWin(human)) return {utility: -10};
         else if(availableCells().length < 1) return {utility: 0};
-
+    
         var possibleMoves = [];
         for(var move of availableCells()) {
             board[move] = player;
