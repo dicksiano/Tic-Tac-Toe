@@ -20,8 +20,10 @@
     }
 
     function clickCell(cell) {
-        chooseCell(cell.target.id, human);
-        chooseCell(minimax(robot, -99999, 99999).move, robot);
+        if(board[cell.target.id] != human && board[cell.target.id] != robot) {
+            chooseCell(cell.target.id, human);
+            chooseCell(minimax(robot, -99999, 99999).move, robot);
+        }
     }
 
     function chooseCell(id, player) {
