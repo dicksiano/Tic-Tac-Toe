@@ -21,7 +21,7 @@
 
     function clickCell(cell) {
         chooseCell(cell.target.id, human);
-        chooseCell(minimax(robot).move, robot);
+        chooseCell(minimax(robot, -99999, 99999).move, robot);
     }
 
     function chooseCell(id, player) {
@@ -64,18 +64,25 @@
         [0,1,2,3,4,5,6,7,8].every( index => document.getElementById(index).style.backgroundColor = "gray");
     }
 
-    function minimax(player) {
+    function minimax(player, alpha, beta) {
         if(checkWin(robot)) return {utility: 10};
         else if(checkWin(human)) return {utility: -10};
         else if(availableCells().length < 1) return {utility: 0};
     
-        var possibleMoves = [];
+        var currentBest = (player == robot) ? {utility:-9999} : {utility:9999};
         for(var move of availableCells()) {
             board[move] = player;
-            var next = (player == robot) ? minimax(human) : minimax(robot);
-            possibleMoves.push({ move: move, utility: next.utility});
-            board[move] = move
+            var next = (player == robot) ? minimax(human, alpha, beta) : minimax(robot, alpha, beta);
+            board[move] = move;
+
+            if(player == robot) {
+                if(next.utility > currentBest.utility) currentBest = {move: move, utility:next.utility};
+                alpha = Math.max(alpha, currentBest.utility);
+            } else {
+                if(next.utility < currentBest.utility) currentBest = {move: move, utility:next.utility};
+                beta = Math.min(beta, currentBest.utility);
+            }
+            if(alpha >= beta) return currentBest;
         }
-        if(player == robot) return possibleMoves.reduce( (prev, curr) => (prev.utility > curr.utility) ? prev : curr);
-        else return possibleMoves.reduce( (prev, curr) => (prev.utility < curr.utility) ? prev : curr);
+        return currentBest;
     }
